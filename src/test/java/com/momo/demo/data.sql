@@ -1,0 +1,2 @@
+INSERT INTO momodemo.member (created_date, deleted, id, last_modified_date, version, account, address, created_by, email, last_modified_by, name, phone)
+VALUES ('2024-05-18 00:00:00', NULL, 1, '2024-05-18 00:00:00', 1, 'demo', 'romin', 'system', 'rominzhang@gmail.com', 'system', 'Romin Zhang', '123-456-7890');

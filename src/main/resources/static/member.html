@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member List</title>
+    <script src="./jquery-3.7.1.min.js"></script>
+    <style>
+        #addMemberForm, #editMemberForm {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 30%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #addMemberForm input, #editMemberForm input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #f4f4f4;
+        }
+        td button {
+            padding: 5px 10px;
+            border: none;
+            background: #007BFF;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        td button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Member List</h1>
+<div>
+    <label for="account">帳號: </label>
+    <input type="text" id="account">
+    <label for="name">姓名: </label>
+    <input type="text" id="name">
+    <label for="startDate">開始日期: </label>
+    <input type="date" id="startDate">
+    <label for="endDate">結束日期: </label>
+    <input type="date" id="endDate">
+    <button onclick="searchMembers()">搜尋</button>
+    <button onclick="showAddMemberForm()">新增</button>
+</div>
+<table id="memberTable">
+    <thead>
+    <tr>
+        <th>功能</th>
+        <th>帳號</th>
+        <th>姓名</th>
+        <th>手機</th>
+        <th>地址</th>
+        <th>email</th>
+        <th>新增人員</th>
+        <th>新增時間</th>
+        <th>修改人員</th>
+        <th>修改時間</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<div id="addMemberForm">
+    <h2>新增成員</h2>
+    <label for="addAccount">帳號: </label>
+    <input type="text" id="addAccount">
+    <label for="addName">姓名: </label>
+    <input type="text" id="addName">
+    <label for="addPhone">手機: </label>
+    <input type="text" id="addPhone">
+    <label for="addAddress">地址: </label>
+    <input type="text" id="addAddress">
+    <label for="addEmail">email: </label>
+    <input type="text" id="addEmail">
+    <button onclick="addMember()">新增</button>
+    <button onclick="hideAddMemberForm()">取消</button>
+</div>
+
+<div id="editMemberForm">
+    <h2>編輯成員</h2>
+    <input type="hidden" id="editId">
+    <label for="editAccount">帳號: </label>
+    <input type="text" id="editAccount">
+    <label for="editName">姓名: </label>
+    <input type="text" id="editName">
+    <label for="editPhone">手機: </label>
+    <input type="text" id="editPhone">
+    <label for="editAddress">地址: </label>
+    <input type="text" id="editAddress">
+    <label for="editEmail">email: </label>
+    <input type="text" id="editEmail">
+    <button onclick="updateMember()">更新</button>
+    <button onclick="hideEditMemberForm()">取消</button>
+</div>
+
+<script>
+    $(document).ready(function(){
+        loadAllMembers();
+    });
+
+    function loadAllMembers() {
+        $.ajax({
+            url: "/member/getAll",
+            type: "GET",
+            success: function(data) {
+                populateTable(data);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function searchMembers() {
+        const account = $('#account').val();
+        const name = $('#name').val();
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+
+        const condition = {
+            account: account,
+            name: name,
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        $.ajax({
+            url: "/member/search",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(condition),
+            success: function(data) {
+                populateTable(data);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function populateTable(data) {
+        $('#memberTable tbody').empty();
+        $.each(data, function(index, member) {
+            $('#memberTable tbody').append(`
+                <tr>
+                    <td>
+                        <button onclick='editMember(${JSON.stringify(member)})'>編輯</button>
+                        <button onclick='deleteMember("${member.id}")'>刪除</button>
+                    </td>
+                    <td>${member.account}</td>
+                    <td>${member.name}</td>
+                    <td>${member.phone}</td>
+                    <td>${member.address}</td>
+                    <td>${member.email}</td>
+                    <td>${member.createdBy}</td>
+                    <td>${member.createdDate}</td>
+                    <td>${member.lastModifiedBy}</td>
+                    <td>${member.lastModifiedDate}</td>
+                </tr>
+            `);
+        });
+    }
+
+    function deleteMember(id) {
+        $.ajax({
+            url: `/member/delete/${id}`,
+            type: "DELETE",
+            success: function(result) {
+                alert("Member deleted successfully");
+                loadAllMembers(); // Refresh the table to update the list
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function showAddMemberForm() {
+        $('#addMemberForm').show();
+    }
+
+    function hideAddMemberForm() {
+        $('#addMemberForm').hide();
+    }
+
+    function addMember() {
+        const member = {
+            account: $('#addAccount').val(),
+            name: $('#addName').val(),
+            phone: $('#addPhone').val(),
+            address: $('#addAddress').val(),
+            email: $('#addEmail').val()
+        };
+
+        $.ajax({
+            url: "/member/add",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(member),
+            success: function(result) {
+                alert("Member added successfully");
+                hideAddMemberForm();
+                loadAllMembers(); // Refresh the table to update the list
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                alert("帳號不得為空");
+            }
+        });
+    }
+
+    function editMember(member) {
+        $('#editId').val(member.id);
+        $('#editAccount').val(member.account);
+        $('#editName').val(member.name);
+        $('#editPhone').val(member.phone);
+        $('#editAddress').val(member.address);
+        $('#editEmail').val(member.email);
+        $('#editMemberForm').show();
+    }
+
+    function hideEditMemberForm() {
+        $('#editMemberForm').hide();
+    }
+
+    function updateMember() {
+        const member = {
+            id: $('#editId').val(),
+            account: $('#editAccount').val(),
+            name: $('#editName').val(),
+            phone: $('#editPhone').val(),
+            address: $('#editAddress').val(),
+            email: $('#editEmail').val()
+        };
+
+        $.ajax({
+            url: `/member/update`,
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(member),
+            success: function(result) {
+                alert("Member updated successfully");
+                hideEditMemberForm();
+                loadAllMembers(); // Refresh the table to update the list
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                alert("帳號不得為空");
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: demo-momo
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  flyway:
+    locations: classpath:db/migration/mysql
+  security:
+    user:
+      name: romin
+      password: momo
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        hibernate.format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DATABASE_HOST:localhost}:${DATABASE_PORT:3306}/${DATABASE_NAME:momodemo}?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:RominMomo3306}
+    type: com.zaxxer.hikari.HikariDataSource
+    defer-datasource-initialization : true
+    hikari:
+      pool-name: ${spring.application.name}-cp
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 600000
+      auto-commit: true
+      connection-timeout: 30000
+      max-lifetime: 1800000
+  sql:
+    init:
+      mode: always
