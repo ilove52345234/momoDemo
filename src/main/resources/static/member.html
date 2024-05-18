@@ -14,25 +14,30 @@
             padding: 20px;
             border: 1px solid #ccc;
             background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         #addMemberForm input, #editMemberForm input {
             display: block;
             margin-bottom: 10px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
             padding: 12px;
             border: 1px solid #ddd;
         }
+
         th {
             background: #f4f4f4;
         }
+
         td button {
             padding: 5px 10px;
             border: none;
@@ -41,6 +46,7 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         td button:hover {
             background: #0056b3;
         }
@@ -113,7 +119,7 @@
 </div>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         loadAllMembers();
     });
 
@@ -121,10 +127,10 @@
         $.ajax({
             url: "/member/getAll",
             type: "GET",
-            success: function(data) {
+            success: function (data) {
                 populateTable(data);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(error);
             }
         });
@@ -148,10 +154,10 @@
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(condition),
-            success: function(data) {
+            success: function (data) {
                 populateTable(data);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(error);
             }
         });
@@ -159,7 +165,7 @@
 
     function populateTable(data) {
         $('#memberTable tbody').empty();
-        $.each(data, function(index, member) {
+        $.each(data, function (index, member) {
             $('#memberTable tbody').append(`
                 <tr>
                     <td>
@@ -184,11 +190,11 @@
         $.ajax({
             url: `/member/delete/${id}`,
             type: "DELETE",
-            success: function(result) {
+            success: function (result) {
                 alert("Member deleted successfully");
-                loadAllMembers(); // Refresh the table to update the list
+                loadAllMembers();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(error);
             }
         });
@@ -216,13 +222,13 @@
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(member),
-            success: function(result) {
+            success: function (result) {
                 alert("Member added successfully");
                 hideAddMemberForm();
-                loadAllMembers(); // Refresh the table to update the list
+                loadAllMembers();
                 location.reload();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 alert("帳號不得為空");
             }
         });
@@ -257,13 +263,13 @@
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(member),
-            success: function(result) {
+            success: function (result) {
                 alert("Member updated successfully");
                 hideEditMemberForm();
-                loadAllMembers(); // Refresh the table to update the list
+                loadAllMembers();
                 location.reload();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 alert("帳號不得為空");
             }
         });

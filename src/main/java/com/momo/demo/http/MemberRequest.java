@@ -10,6 +10,9 @@ import java.io.Serializable;
 
 import static lombok.AccessLevel.PRIVATE;
 
+/**
+ * 會員請求
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -46,6 +49,5 @@ public class MemberRequest implements Serializable {
      * email
      */
     String email;
-
 
 }

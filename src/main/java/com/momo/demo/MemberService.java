@@ -4,6 +4,9 @@ package com.momo.demo;
 import com.momo.demo.http.MemberCondition;
 import com.momo.demo.http.MemberRequest;
 import com.momo.demo.jpa.MemberRepository;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -11,17 +14,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * 會員服務
+ */
 @Service
 @Validated
 @Slf4j
 @RequiredArgsConstructor
-
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;

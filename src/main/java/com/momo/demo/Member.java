@@ -1,24 +1,23 @@
 package com.momo.demo;
 
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
+
+/**
+ * 會員
+ */
 @SuperBuilder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(access = PRIVATE)
-
 public class Member extends AuditingBase<String> implements Serializable {
-
 
     /**
      * id

@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import static lombok.AccessLevel.PRIVATE;
 
 /**
- * Base class for entity implementations.
+ * 基礎抽象類
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

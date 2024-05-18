@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * User REST API
+ * 會員 REST API
  */
 @Slf4j
 @Validated

@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+
+/**
+ * 會員查詢條件
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +26,6 @@ public class MemberCondition {
      * 姓名
      */
     String name;
-
 
     /**
      * 起日

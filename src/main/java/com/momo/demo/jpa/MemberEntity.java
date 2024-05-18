@@ -7,16 +7,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
 import static lombok.AccessLevel.PRIVATE;
 
+/**
+ * 會員實體類
+ */
 @Builder
 @Entity
 @Data
-@Table(name = "member" ,indexes = {
+@Table(name = "member", indexes = {
         @Index(columnList = "account"),
         @Index(columnList = "name"),
         @Index(columnList = "createdDate")

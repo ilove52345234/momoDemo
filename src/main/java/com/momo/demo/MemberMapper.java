@@ -12,6 +12,10 @@ import java.util.List;
 import static org.mapstruct.CollectionMappingStrategy.TARGET_IMMUTABLE;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_DEFAULT;
 
+
+/**
+ * 會員映射器
+ */
 @Mapper(componentModel = "spring", collectionMappingStrategy = TARGET_IMMUTABLE, nullValueMappingStrategy = RETURN_DEFAULT, builder = @Builder)
 public interface MemberMapper {
 

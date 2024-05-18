@@ -1,15 +1,16 @@
 package com.momo.demo;
 
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * 審計實作
+ */
 @Component("auditorAware")
 public class AuditingService implements AuditorAware<String> {
-
     @Override
     public Optional<String> getCurrentAuditor() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -18,5 +19,4 @@ public class AuditingService implements AuditorAware<String> {
         }
         return Optional.of("system");
     }
-
 }
